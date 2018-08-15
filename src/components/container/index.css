@@ -1,0 +1,24 @@
+div.app-container {
+    color: #222;
+    padding: 20px 15px;
+}
+
+div.user-list__wrapper {
+    position: relative;
+}
+
+div.line-divider {
+    border-bottom: 1px solid black;
+    position: absolute;
+    top: 0;
+}
+
+h3.list-header {
+    border-bottom: 1px solid #e8e8e8;
+    padding-bottom: 20px;
+    font-weight: bold;
+}
+
+div.user-list {
+    position: relative;
+}
