@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Card, Avatar, Icon } from 'antd';
+import { Avatar, Icon } from 'antd';
 import './index.css';
 
 const pictureStyle = {

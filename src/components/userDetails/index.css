@@ -1,0 +1,32 @@
+div.user-details__wrapper {
+    padding: 8px;
+}
+
+div.user-details__wrapper td {
+    width: 50%;
+}
+
+tr.user-contact__info .user-contact__name {
+    color: #444;
+    font-weight: 600;
+    margin-top: 8px;
+}
+
+tr.user-contact__info .user-contact__phone {
+    color: #6ad038;
+    font-weight: 600;
+}
+
+tr.user-contact__info {
+    text-align: center;
+}
+
+tr.user-personal__info {
+    margin-top: 8px;
+}
+
+.user-personal__info td:first-child {
+    text-align: right;
+    font-weight: bold;
+    padding-right: 12px;
+}

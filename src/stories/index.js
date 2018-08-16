@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import Item from '../components/listItem/';
-
+import UserDetails from '../components/userDetails/';
 
 storiesOf('List Box', module)
   .add('User List Item', () => (
@@ -12,5 +12,10 @@ storiesOf('List Box', module)
         userInitials="NB"
       />
       <Item />
+    </div>
+  ))
+  .add('User Details', () => (
+    <div>
+      <UserDetails />
     </div>
   ));
