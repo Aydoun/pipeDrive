@@ -2,16 +2,7 @@
   box-sizing: border-box;
 }
 
-.App-header {
-  background-color: #444;
-  height: 48px;
-  color: white;
-}
-
-.App-title {
-  font-size: 1.4em;
-  padding: 8px 14px;
-  font-weight: bold;
+body {
   font-family: 'Open Sans', sans-serif;
 }
 
@@ -23,3 +14,25 @@ ul {
   margin: 0;
   padding: 0;
 }
+
+.right {
+  float: right;
+}
+
+.left {
+  float: left;
+}
+
+.App-header {
+  background-color: #444;
+  height: 48px;
+  color: white;
+}
+
+.App-title {
+  font-size: 1.4em;
+  padding: 8px 14px;
+  font-weight: bold;
+  /* font-family: 'Open Sans', sans-serif; */
+}
+

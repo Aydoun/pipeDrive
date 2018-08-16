@@ -1,19 +1,16 @@
 import React from 'react';
-
 import { storiesOf } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
-import { linkTo } from '@storybook/addon-links';
+import Item from '../components/listItem/';
 
-import { Button, Welcome } from '@storybook/react/demo';
 
-storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />);
-
-storiesOf('Button', module)
-  .add('with text', () => <Button onClick={action('clicked')}>Hello Button</Button>)
-  .add('with some emoji', () => (
-    <Button onClick={action('clicked')}>
-      <span role="img" aria-label="so cool">
-        😀 😎 👍 💯
-      </span>
-    </Button>
+storiesOf('List Box', module)
+  .add('User List Item', () => (
+    <div>
+      <Item 
+        userName="Nadia Boulanger"
+        userLocation="Fountain Blue, France"
+        userInitials="NB"
+      />
+      <Item />
+    </div>
   ));
