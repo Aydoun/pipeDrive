@@ -4,7 +4,8 @@ import { bindActionCreators } from 'redux';
 import { Input, Button, Pagination, Modal, Divider, Spin } from 'antd';
 import ListItem from '../listItem/';
 import AddForm from '../userAdd/';
-import { getUserList } from '../../actions/users';
+import UserDetails from '../userDetails/';
+import { getUserList, selectUser } from '../../actions/users';
 import { initials } from '../../utils/';
 import './index.css';
 
@@ -20,6 +21,7 @@ class Container extends Component {
     this.onSearch = this.onSearch.bind(this);
     this.state = {
       visible: false,
+      visbile2: false,
       currentPage: 1,
       pageSize: 10,
       subUserList: [],
@@ -42,7 +44,8 @@ class Container extends Component {
   }
 
   userClick(userId) {
-    console.log(userId);
+    this.setState({ visible2: true });
+    this.props.selectUser(this.props.userList, userId);
   }
 
   onPaginationChange(page, pageSize) {
@@ -80,7 +83,7 @@ class Container extends Component {
   }
 
   render() {
-    const { currentPage, pageSize, visible } = this.state;
+    const { currentPage, pageSize, visible, visible2 } = this.state;
     const { listLoading } = this.props;
     const subList = this.getSearchList();
     const finalList = subList.slice((currentPage - 1) * pageSize, currentPage * pageSize)
@@ -150,13 +153,30 @@ class Container extends Component {
           >
             <AddForm />
           </Modal>
+          <Modal 
+            title="Personal Information"
+            visible={visible2}
+            onCancel={() => this.setState({ visible2: false })}
+            footer={[
+              <Button 
+                key="back" 
+                onClick={() => this.setState({ visible2: false })}
+                style={{ color: '#444', fontWeight: 700 }}
+              >
+                Back
+              </Button>,
+            ]}
+            width={400}
+          >
+            <UserDetails />
+          </Modal>
       </div>
     );
   }
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ getUserList }, dispatch);
+  return bindActionCreators({ getUserList, selectUser }, dispatch);
 }
 
 function mapStateToProps(state) {

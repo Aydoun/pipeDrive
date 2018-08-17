@@ -6,3 +6,10 @@ export function getUserList(payload) {
       payload
     };
 }
+
+export function selectUser(userList, userId) {
+  return {
+    type: C.SELECT_USER,
+    selectedUser: userList.find(el => el.id === userId),
+  };
+}

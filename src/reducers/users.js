@@ -14,6 +14,10 @@ function userReducer(state = initialState, action) {
       return Object.assign({}, state, {
         listLoading: true,
       });
+    case C.SELECT_USER:
+      return Object.assign({}, state, {
+        selectedUser: action.selectedUser,
+      });
     case C.SAVE_USER_LIST:
       return Object.assign({}, state, {
         userList: action.userList,

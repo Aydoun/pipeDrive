@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Avatar, Divider, Row, Col } from 'antd';
+import { Avatar, Divider, Row, Col, Button, Popconfirm } from 'antd';
+import { apiMapping } from '../../utils/config';
 import './index.css';
 
 class UserDetails extends Component {
@@ -15,22 +16,36 @@ class UserDetails extends Component {
               <Avatar 
                 src="https://www.bing.com/th?id=OIP.1g4ItbHS0yvA0WHilyOY1QHaFj&w=236&h=177&c=7&o=5&pid=1.7"
                   size={64} />
-              <div className="user-contact__name">Anna Rita Sousa</div>
-              <div className="user-contact__phone">+87 1222128732</div>
+              <div className="user-contact__name">{selectedUser.name}</div>
+              <div className="user-contact__phone">{selectedUser.email[1].value}</div>
+          </Col>
+        </Row>
+        <Row className="user-info__wrapper" >
+          <Col span={8} className="user-info__label">Email</Col>
+          <Col span={16} className="user-info__value">
+            {selectedUser.email[0].value}
           </Col>
         </Row>
         {
-          [1,2,3,4,5].map(el => {
+          Object.keys(apiMapping).map(key => {
             return (
-              <Row className="user-info__wrapper">
-                <Col span={8} className="user-info__label">Name</Col>
+              <Row className="user-info__wrapper" key={key}>
+                <Col span={8} className="user-info__label">{key}</Col>
                 <Col span={16} className="user-info__value">
-                  Gabrielle
+                  {selectedUser[apiMapping[key]] || '--'}
                 </Col>
               </Row>
             );
           })
         }
+        <Row >
+          <Col span={8}></Col>
+          <Col span={16}>
+            <Popconfirm title="Confirm Your Choice" okText="Confirm" cancelText="Cancel">
+              <Button type="danger" icon="user-delete">Delete</Button>
+            </Popconfirm>
+          </Col>
+        </Row>
       </div>
     );
   }
