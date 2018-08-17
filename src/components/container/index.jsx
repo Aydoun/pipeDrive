@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Input, Button, Pagination, Modal, Divider, Spin } from 'antd';
 import ListItem from '../listItem/';
+import AddForm from '../userAdd/';
 import { getUserList } from '../../actions/users';
 import { initials } from '../../utils/';
 import './index.css';
@@ -79,7 +80,7 @@ class Container extends Component {
   }
 
   render() {
-    const { currentPage, pageSize } = this.state;
+    const { currentPage, pageSize, visible } = this.state;
     const { listLoading } = this.props;
     const subList = this.getSearchList();
     const finalList = subList.slice((currentPage - 1) * pageSize, currentPage * pageSize)
@@ -134,10 +135,21 @@ class Container extends Component {
             onChange={this.onPaginationChange}
           />
           <Modal 
-            title="Title"
-            visible={false}
+            title="Add New Person"
+            visible={visible}
             onCancel={() => this.setState({ visible: false })}
-          />
+            footer={[
+              <Button 
+                key="back" 
+                onClick={() => this.setState({ visible: false })}
+                style={{ color: '#444', fontWeight: 700 }}
+              >
+                Back
+              </Button>,
+            ]}
+          >
+            <AddForm />
+          </Modal>
       </div>
     );
   }
