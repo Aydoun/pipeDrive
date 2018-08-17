@@ -14,7 +14,10 @@ function* getUserList(returnedData) {
 
   try {
     const res = yield call(request, GETOptions);
-    
+    yield put({
+      type: C.SAVE_USER_LIST,
+      userList: res.data.data,
+    });
   } catch (err) {
     yield put({
         type: SEND_NOTIFICATION,

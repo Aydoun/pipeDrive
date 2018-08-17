@@ -1,5 +1,7 @@
 div.user-details__wrapper {
     padding: 8px;
+    width: 500px;
+    margin: 0 auto;
 }
 
 div.user-details__wrapper td {

@@ -16,16 +16,14 @@ export default class ListItem extends Component {
         userName: PropTypes.string,
         userLocation: PropTypes.string,
         userInitials: PropTypes.string,
-        hasPic: PropTypes.boolean,
-        userPic: PropTypes.string,
+        onUserClick: PropTypes.func,
     }
 
     static defaultProps = {
         userName: 'Michael Barton',
         userLocation: 'Perkin Elmer Inc',
         userInitials: 'MB',
-        hasPic: false,
-        userPic: '',
+        onUserClick: () => {},
     }
 
     render() {
@@ -33,12 +31,15 @@ export default class ListItem extends Component {
             userName,
             userLocation,
             userInitials,
+            onUserClick,
         } = this.props;
         
         return (
         <div className="user-list__wrapper">
             <div>
-                <div className="user-item__name">{userName}</div>
+                <div className="user-item__name">
+                    <a onClick={onUserClick} >{userName}</a>
+                </div>
                 <div>
                     <Icon type="pushpin" />
                     <span className="user-item__location">{userLocation}</span>

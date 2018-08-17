@@ -4,11 +4,16 @@ div.user-list__wrapper {
     position: relative;
     margin-bottom: 8px;
     background: #fdfdfd;
+    cursor: pointer;
 }
 
-div.user-item__name {
+div.user-item__name a {
     color: #444;
     font-weight: 600;
+}
+
+div.user-item__name a:hover {
+    color: #0883f5;
 }
 
 span.user-item__location {

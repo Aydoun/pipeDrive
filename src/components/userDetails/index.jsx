@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Avatar } from 'antd';
+import { Avatar, Divider } from 'antd';
 import './index.css';
 
 class UserDetails extends Component {
@@ -21,6 +21,7 @@ class UserDetails extends Component {
                   </div>
                 </td>
               </tr>
+              <Divider />
               <tr className="user-personal__info">
                   <td>Name</td>
                   <td>Gabrielle</td>

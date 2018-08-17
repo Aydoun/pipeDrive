@@ -16,3 +16,10 @@ h3.list-header {
 div.user-list {
     position: relative;
 }
+
+li.empty-results {
+    margin-bottom: 12px;
+    text-align: center;
+    font-weight: bold;
+    color: rgba(0,0,0,.45);
+}
