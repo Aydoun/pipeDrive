@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Input, Button, Pagination, Modal, Divider, Spin } from 'antd';
-import ListItem from '../listItem/';
+import SortedList from '../dnd/';
 import AddForm from '../userAdd/';
 import UserDetails from '../userDetails/';
 import { getUserList, selectUser } from '../../actions/users';
-import { initials } from '../../utils/';
 import './index.css';
 
 const Search = Input.Search;
@@ -14,14 +13,12 @@ const Search = Input.Search;
 class Container extends Component {
   constructor(props) {
     super(props);
-    this.userClick = this.userClick.bind(this);
+    
     this.getSearchList = this.getSearchList.bind(this);
     this.onPaginationChange = this.onPaginationChange.bind(this);
     this.isSearchBarEmpty = this.isSearchBarEmpty.bind(this);
     this.onSearch = this.onSearch.bind(this);
     this.state = {
-      visible: false,
-      visbile2: false,
       currentPage: 1,
       pageSize: 10,
       subUserList: [],
@@ -41,11 +38,6 @@ class Container extends Component {
         };
       });
     }
-  }
-
-  userClick(userId) {
-    this.setState({ visible2: true });
-    this.props.selectUser(this.props.userList, userId);
   }
 
   onPaginationChange(page, pageSize) {
@@ -83,8 +75,8 @@ class Container extends Component {
   }
 
   render() {
-    const { currentPage, pageSize, visible, visible2 } = this.state;
-    const { listLoading } = this.props;
+    const { currentPage, pageSize } = this.state;
+    const { listLoading, userDetailModal, userAddModal } = this.props;
     const subList = this.getSearchList();
     const finalList = subList.slice((currentPage - 1) * pageSize, currentPage * pageSize)
     const userListLength = subList.length;
@@ -96,7 +88,7 @@ class Container extends Component {
           <Button 
             type="primary" 
             icon="plus"
-            onClick={() => this.setState({ visible: true })}
+            onClick={() => this.props.toggleAddModal(true)}
           >
               Add a Person
           </Button>&nbsp;&nbsp;
@@ -110,23 +102,11 @@ class Container extends Component {
             { listLoading && <Spin /> }
           </div>
           <div>
-            <ul className="users-list">
-                {
-                  userListLength > 0 ? finalList.map(ele => {
-                    return (
-                      <li key={ele.id}>
-                        <ListItem      
-                          userName={ele.name}
-                          userInitials={initials(ele.first_name, ele.last_name)}
-                          onUserClick={() => this.userClick(ele.id)}
-                        />
-                      </li>
-                    )
-                  }) : (
-                    <li className="empty-results">No Results Found...</li>
-                  )
-                }
-            </ul>
+            {
+              userListLength > 0 ? <SortedList list={finalList}/> : (
+                <li className="empty-results">No Results Found...</li>
+              )
+            }
           </div>
           <Pagination 
             defaultCurrent={1} 
@@ -139,12 +119,12 @@ class Container extends Component {
           />
           <Modal 
             title="Add New Person"
-            visible={visible}
-            onCancel={() => this.setState({ visible: false })}
+            visible={userAddModal}
+            onCancel={() => this.props.toggleAddModal(false)}
             footer={[
               <Button 
                 key="back" 
-                onClick={() => this.setState({ visible: false })}
+                onClick={() => this.props.toggleAddModal(false)}
                 style={{ color: '#444', fontWeight: 700 }}
               >
                 Back
@@ -155,12 +135,12 @@ class Container extends Component {
           </Modal>
           <Modal 
             title="Personal Information"
-            visible={visible2}
-            onCancel={() => this.setState({ visible2: false })}
+            visible={userDetailModal}
+            onCancel={() => this.props.toggleEditModal(false)}
             footer={[
               <Button 
                 key="back" 
-                onClick={() => this.setState({ visible2: false })}
+                onClick={() => this.props.toggleEditModal(false)}
                 style={{ color: '#444', fontWeight: 700 }}
               >
                 Back
@@ -176,13 +156,29 @@ class Container extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ getUserList, selectUser }, dispatch);
+  return {
+    ...bindActionCreators({ getUserList, selectUser }, dispatch), 
+    toggleEditModal: visible => {
+      dispatch({
+        type: 'TOGGLE_USER_DETAILS',
+        userDetailModal: visible
+      });
+    },
+    toggleAddModal: visible => {
+      dispatch({
+        type: 'TOGGLE_USER_ADD',
+        userAddModal: visible
+      });
+    },
+  }
 }
 
 function mapStateToProps(state) {
   return {
     userList: state.users.userList,
     listLoading: state.users.listLoading,
+    userDetailModal: state.users.userDetailModal,
+    userAddModal: state.users.userAddModal,
   };
 }
 

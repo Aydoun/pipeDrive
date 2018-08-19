@@ -2,6 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import Item from '../components/listItem/';
 import UserDetails from '../components/userDetails/';
+import DND from '../components/dnd/';
 
 storiesOf('List Box', module)
   .add('User List Item', () => (
@@ -17,5 +18,10 @@ storiesOf('List Box', module)
   .add('User Details', () => (
     <div>
       <UserDetails />
+    </div>
+  ))
+  .add('Drag and Drop', () => (
+    <div>
+      <DND />
     </div>
   ));
