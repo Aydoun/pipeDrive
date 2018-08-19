@@ -41,7 +41,7 @@ export default class ListItem extends Component {
                     <a onClick={onUserClick} >{userName}</a>
                 </div>
                 <div>
-                    <Icon type="pushpin" />
+                    <Icon type="environment" />
                     <span className="user-item__location">{userLocation}</span>
                 </div>
             </div>

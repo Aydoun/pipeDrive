@@ -7,3 +7,5 @@ export const apiMapping = {
     'Location' : '9700ebaf816245037f7a8c85c142a3646be52fed',
     // '0cbda9906b5ae06439fd6721c81a2d9fb887bf27': 'Assistance',
 };
+
+export const userOrder = '839d62aa93b27b769d55872a00d93d3909d785be';

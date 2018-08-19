@@ -10,20 +10,17 @@ class UserDetails extends Component {
     
     return (
       <div className="user-details__wrapper">
-        <Row type="flex" className="user-contact__info">
-          <Col span={8}></Col>
-          <Col span={16}>
+        <Row className="user-contact__info">
               <Avatar 
                 src="https://www.bing.com/th?id=OIP.1g4ItbHS0yvA0WHilyOY1QHaFj&w=236&h=177&c=7&o=5&pid=1.7"
                   size={64} />
               <div className="user-contact__name">{selectedUser.name}</div>
-              <div className="user-contact__phone">{selectedUser.email[1].value}</div>
-          </Col>
+              <div className="user-contact__phone">{selectedUser.phone.length > 0 ? selectedUser.phone[0].value : '--'}</div>
         </Row>
         <Row className="user-info__wrapper" >
           <Col span={8} className="user-info__label">Email</Col>
           <Col span={16} className="user-info__value">
-            {selectedUser.email[0].value}
+            {selectedUser.email.length > 0 ? selectedUser.email[0].value : '--'}
           </Col>
         </Row>
         {

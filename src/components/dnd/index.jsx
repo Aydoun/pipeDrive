@@ -5,6 +5,7 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { selectUser } from '../../actions/users';
 import ListItem from '../listItem/';
 import { initials } from '../../utils/';
+import { apiMapping } from '../../utils/config';
 
 const getItemStyle = (isDragging, draggableStyle) => ({
   ...draggableStyle,
@@ -29,7 +30,9 @@ class DND extends Component {
       return;
     }
 
-    console.log(result, 'result');
+    this.props.alterOrder(this.props.userList, sourceId, destinationId);
+
+    console.log(result);
   }
 
   userClick(userId) {
@@ -62,6 +65,7 @@ class DND extends Component {
                             <ListItem      
                                 userName={item.name}
                                 userInitials={initials(item.first_name, item.last_name)}
+                                userLocation={item[apiMapping.Location]}
                                 onUserClick={() => this.userClick(item.id)}
                             />
                           </div>
@@ -80,11 +84,24 @@ class DND extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ selectUser }, dispatch);
+  return {
+    ...bindActionCreators({ selectUser }, dispatch),
+    alterOrder: (list, sourceId, destinationId) => {
+      dispatch({
+        type: 'ALTER_USER_ORDER',
+        payload: {
+          list,
+          sourceId,
+          destinationId,
+        }
+      });
+    },
+  };
 }
 
 function mapStateToProps(state) {
   return {
+    userList: state.users.userList,
   };
 }
 

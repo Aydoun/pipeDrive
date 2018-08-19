@@ -84,39 +84,40 @@ class Container extends Component {
     return (
       <div className="app-container">
           <h3 className="list-header">People's List</h3>
-          <Divider />
-          <Button 
-            type="primary" 
-            icon="plus"
-            onClick={() => this.props.toggleAddModal(true)}
-          >
-              Add a Person
-          </Button>&nbsp;&nbsp;
-          <Search
-            placeholder="search..."
-            onChange={this.isSearchBarEmpty}
-            onSearch={this.onSearch}
-            style={{ width: 200 }}
-          />
-          <div style={{ marginTop: 12 }}>
-            { listLoading && <Spin /> }
+          <div style={{ padding : '12px 15px'}}>
+            <Button 
+              type="primary" 
+              icon="plus"
+              onClick={() => this.props.toggleAddModal(true)}
+            >
+                Add a Person
+            </Button>
+            <Search
+              placeholder="Search..."
+              onChange={this.isSearchBarEmpty}
+              onSearch={this.onSearch}
+              style={{ width: 200, float: 'right' }}
+            />
+            <div style={{ marginTop: 12 }}>
+                { listLoading && <Spin style={{}}/> }
+                {
+                  userListLength > 0 ? <SortedList list={finalList}/> : (
+                    <li className="empty-results">No Results Found...</li>
+                  )
+                }
+            </div>
+            <Pagination 
+              style={{ float: 'right' }}
+              defaultCurrent={1} 
+              total={userListLength} 
+              showQuickJumper 
+              pageSize={10}
+              current={currentPage}
+              showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
+              onChange={this.onPaginationChange}
+            />
           </div>
-          <div>
-            {
-              userListLength > 0 ? <SortedList list={finalList}/> : (
-                <li className="empty-results">No Results Found...</li>
-              )
-            }
-          </div>
-          <Pagination 
-            defaultCurrent={1} 
-            total={userListLength} 
-            showQuickJumper 
-            pageSize={10}
-            current={currentPage}
-            showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
-            onChange={this.onPaginationChange}
-          />
+          
           <Modal 
             title="Add New Person"
             visible={userAddModal}

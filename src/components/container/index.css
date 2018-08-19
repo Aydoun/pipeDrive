@@ -1,6 +1,5 @@
 div.app-container {
     color: #222;
-    padding: 20px 15px;
 }
 
 ul.users-list {
@@ -9,8 +8,9 @@ ul.users-list {
 
 h3.list-header {
     border-bottom: 1px solid #e8e8e8;
-    padding-bottom: 20px;
+    padding: 20px 15px;
     font-weight: bold;
+    margin: 0;
 }
 
 div.user-list {
