@@ -16,6 +16,14 @@ function userReducer(state = initialState, action) {
       return Object.assign({}, state, {
         listLoading: action.loading,
       });
+    case C.TOGGLE_ADD_USER:
+      return Object.assign({}, state, {
+        addUserLoading: action.loading,
+      });
+    case C.TOGGLE_DELETE_USER:
+      return Object.assign({}, state, {
+        deleteUserLoading: action.loading,
+      });
     case C.SELECT_USER:
       return Object.assign({}, state, {
         selectedUser: action.selectedUser,
@@ -29,7 +37,7 @@ function userReducer(state = initialState, action) {
       return Object.assign({}, state, {
         userDetailModal: action.userDetailModal,
       });
-    case C.TOGGLE_USER_ADD:
+    case C.TOGGLE_ADD_MODAL:
       return Object.assign({}, state, {
         userAddModal: action.userAddModal,
       });

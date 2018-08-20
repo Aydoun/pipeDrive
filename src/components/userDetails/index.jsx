@@ -1,26 +1,40 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Avatar, Row, Col, Button, Popconfirm } from 'antd';
+import { deleteUser } from '../../actions/users';
 import { apiMapping } from '../../utils/config';
 import './index.css';
+import { initials } from '../../utils/';
 
 class UserDetails extends Component {
+  constructor(props) {
+    super(props);
+    this.deleteUser = this.deleteUser.bind(this);
+  }
+
+  deleteUser() {
+    const { id } = this.props.selectedUser;
+    this.props.deleteUser(id);
+  }
+
   render() {
-    const { selectedUser } = this.props;
-    
+    const { selectedUser, deleteUserLoading } = this.props;
+    const { phone, first_name, last_name, email, name } = this.props.selectedUser;
     return (
       <div className="user-details__wrapper">
         <Row className="user-contact__info">
               <Avatar 
-                src="https://www.bing.com/th?id=OIP.1g4ItbHS0yvA0WHilyOY1QHaFj&w=236&h=177&c=7&o=5&pid=1.7"
-                  size={64} />
-              <div className="user-contact__name">{selectedUser.name}</div>
-              <div className="user-contact__phone">{selectedUser.phone.length > 0 ? selectedUser.phone[0].value : '--'}</div>
+                  size={64} >
+                  {initials(first_name, last_name)}
+              </Avatar>
+              <div className="user-contact__name">{name}</div>
+              <div className="user-contact__phone">{phone.length > 0 ? phone[0].value : '--'}</div>
         </Row>
         <Row className="user-info__wrapper" >
           <Col span={8} className="user-info__label">Email</Col>
           <Col span={16} className="user-info__value">
-            {selectedUser.email.length > 0 ? selectedUser.email[0].value : '--'}
+            {email.length > 0 ? email[0].value : '--'}
           </Col>
         </Row>
         {
@@ -38,8 +52,8 @@ class UserDetails extends Component {
         <Row >
           <Col span={8}></Col>
           <Col span={16}>
-            <Popconfirm title="Confirm Your Choice" okText="Confirm" cancelText="Cancel">
-              <Button type="danger" icon="user-delete">Delete</Button>
+            <Popconfirm title="Confirm Your Choice" onConfirm={this.deleteUser} okText="Confirm" cancelText="Cancel">
+              <Button type="danger" loading={deleteUserLoading} icon="user-delete">Delete</Button>
             </Popconfirm>
           </Col>
         </Row>
@@ -49,12 +63,13 @@ class UserDetails extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return {};
+  return bindActionCreators({ deleteUser }, dispatch);
 }
 
 function mapStateToProps(state) {
   return {
     selectedUser: state.users.selectedUser,
+    deleteUserLoading: state.users.deleteUserLoading,
   };
 }
 

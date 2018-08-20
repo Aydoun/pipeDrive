@@ -8,6 +8,18 @@ export const initials = (fn, ln) => {
     return '';
 };
 
+export const newOrder = (list) => {
+    var max = 0;
+
+    list.forEach(l => {
+        if(l[userOrder] > max) {
+            max = l[userOrder];
+        }
+    });
+
+    return max + 1;
+};
+
 export const calculateOrder = (list, draggableIdx, endIdx) => {
     let _list = list.slice();
     const [removed] = _list.splice(draggableIdx, 1);

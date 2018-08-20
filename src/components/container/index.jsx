@@ -5,7 +5,8 @@ import { Input, Button, Pagination, Modal, Spin } from 'antd';
 import SortedList from '../dnd/';
 import AddForm from '../userAdd/';
 import UserDetails from '../userDetails/';
-import { getUserList, selectUser } from '../../actions/users';
+import { getUserList, selectUser, addUser } from '../../actions/users';
+
 import './index.css';
 
 const Search = Input.Search;
@@ -13,7 +14,7 @@ const Search = Input.Search;
 class Container extends Component {
   constructor(props) {
     super(props);
-    
+    this.submitData = this.submitData.bind(this);
     this.getSearchList = this.getSearchList.bind(this);
     this.onPaginationChange = this.onPaginationChange.bind(this);
     this.isSearchBarEmpty = this.isSearchBarEmpty.bind(this);
@@ -70,13 +71,17 @@ class Container extends Component {
     return subList;
   }
 
+  submitData(data) {
+    this.props.addUser(data);
+  }
+
   componentDidMount() {
     this.props.getUserList();
   }
 
   render() {
     const { currentPage, pageSize } = this.state;
-    const { listLoading, userDetailModal, userAddModal } = this.props;
+    const { listLoading, userDetailModal, userAddModal, addUserLoading } = this.props;
     const subList = this.getSearchList();
     const finalList = subList.slice((currentPage - 1) * pageSize, currentPage * pageSize)
     const userListLength = subList.length;
@@ -116,11 +121,11 @@ class Container extends Component {
               showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
               onChange={this.onPaginationChange}
             />
-          </div>
-          
+          </div>    
           <Modal 
             title="Add New Person"
             visible={userAddModal}
+            destroyOnClose
             onCancel={() => this.props.toggleAddModal(false)}
             footer={[
               <Button 
@@ -132,7 +137,7 @@ class Container extends Component {
               </Button>,
             ]}
           >
-            <AddForm />
+            <AddForm submitData={this.submitData} loading={addUserLoading}/>
           </Modal>
           <Modal 
             title="Personal Information"
@@ -149,7 +154,7 @@ class Container extends Component {
             ]}
             width={400}
           >
-            <UserDetails />
+            <UserDetails/>
           </Modal>
       </div>
     );
@@ -158,7 +163,7 @@ class Container extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    ...bindActionCreators({ getUserList, selectUser }, dispatch), 
+    ...bindActionCreators({ getUserList, selectUser, addUser }, dispatch), 
     toggleEditModal: visible => {
       dispatch({
         type: 'TOGGLE_USER_DETAILS',
@@ -167,7 +172,7 @@ function mapDispatchToProps(dispatch) {
     },
     toggleAddModal: visible => {
       dispatch({
-        type: 'TOGGLE_USER_ADD',
+        type: 'TOGGLE_ADD_MODAL',
         userAddModal: visible
       });
     },
@@ -180,6 +185,7 @@ function mapStateToProps(state) {
     listLoading: state.users.listLoading,
     userDetailModal: state.users.userDetailModal,
     userAddModal: state.users.userAddModal,
+    addUserLoading: state.users.addUserLoading,
   };
 }
 

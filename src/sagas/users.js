@@ -4,34 +4,25 @@ import { OrderList } from '../actions/users';
 import { sendNotification } from '../actions/app';
 import request from '../utils/request';
 import { apiBase, userOrder } from '../utils/config';
-import { calculateOrder } from '../utils/';
+import { calculateOrder, newOrder } from '../utils/';
 
 function* getUserList() {
-  const requestURL = `${apiBase}/persons23321`;
-
+  const requestURL = `${apiBase}/persons`;
   const GETOptions = {
     method: 'GET',
     url: requestURL,
   };
 
   try {
-    yield put({
-      type: C.TOGGLE_LIST_LOADING,
-      loading: true,
-    });
+    yield put({ type: C.TOGGLE_LIST_LOADING, loading: true });
+
     const res = yield call(request, GETOptions);
     
     yield put(OrderList(res.data.data));
-    yield put({
-      type: C.TOGGLE_LIST_LOADING,
-      loading: false,
-    });
+    yield put({ type: C.TOGGLE_LIST_LOADING, loading: false });
   } catch (err) {
     yield put(sendNotification('error', 'Error While Fetching Data, please try again!'));
-    yield put({
-      type: C.TOGGLE_LIST_LOADING,
-      loading: false,
-    });
+    yield put({ type: C.TOGGLE_LIST_LOADING, loading: false });
     console.log(err);
   }
 }
@@ -59,11 +50,64 @@ function* alterOrder(data) {
         [userOrder]: newOrderUser[userOrder],
       },
     };
-    // console.log(PUTOptions, 'PUTOPTIONS');
-    // yield call(request, PUTOptions);
+    yield call(request, PUTOptions);
   } catch (err) {
     yield put(sendNotification('error', 'Error While Persisting The Order'));
    
+    console.log(err);
+  }
+}
+
+function* persistUser(data) {
+  try {
+    yield put({ type: C.TOGGLE_ADD_USER, loading: true });
+    const list = yield select(state => state.users.userList);
+    const orderedData = Object.assign({}, data.payload, {
+      [userOrder]: newOrder(list),
+    });
+    const requestURL = `${apiBase}/persons`;
+    const POSTOptions = {
+      method: 'POST',
+      url: requestURL,
+      data: orderedData,
+    };
+
+    const res = yield call(request, POSTOptions);
+
+    yield put({ type: C.TOGGLE_ADD_MODAL, userAddModal: false });
+    yield put(OrderList(list.concat([res.data.data])));    
+    yield put({ type: C.TOGGLE_ADD_USER, loading: false });
+    yield put(sendNotification('success', 'New Person is Successfully Added'));
+
+  } catch (err) {
+    yield put(sendNotification('error', 'Error While Adding new Person'));
+    yield put({ type: C.TOGGLE_ADD_USER, loading: false });
+    console.log(err);
+  }
+}
+
+function* deleteUser(data) {
+  console.log(data, 'data');
+  try {
+    yield put({ type: C.TOGGLE_DELETE_USER, loading: true });
+    const list = yield select(state => state.users.userList);
+    const requestURL = `${apiBase}/persons/${data.id}`;
+    const DELETEOptions = {
+      method: 'DELETE',
+      url: requestURL,
+    };
+
+    console.log(DELETEOptions, 'POSTOPTIONS');
+
+
+    yield call(request, DELETEOptions);
+    yield put({ type: C.TOGGLE_USER_DETAILS, userDetailModal: false });
+    yield put(OrderList(list.filter(l => l.id !== data.id)));    
+    yield put({ type: C.TOGGLE_DELETE_USER, loading: false });
+    yield put(sendNotification('success', 'Person is Successfully Deleted'));
+  } catch (err) {
+    yield put(sendNotification('error', 'Error While Deleting The Person Person'));
+    yield put({ type: C.TOGGLE_DELETE_USER, loading: false });
     console.log(err);
   }
 }
@@ -76,7 +120,17 @@ function* alterOrderSaga() {
   yield takeLatest(C.ALTER_USER_ORDER, alterOrder);
 }
 
+function* addUserSaga() {
+  yield takeLatest(C.ADD_USER, persistUser);
+}
+
+function* deleteUserSaga() {
+  yield takeLatest(C.DELETE_USER, deleteUser);
+}
+
 export default [
   fork(userListSaga),
   fork(alterOrderSaga),
+  fork(addUserSaga),
+  fork(deleteUserSaga),
 ];

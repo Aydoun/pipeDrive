@@ -1,21 +1,34 @@
 import React from 'react';
 import { Form, Input, Button } from 'antd';
+import { apiMapping } from '../../utils/config';
 
 const FormItem = Form.Item;
-
 
 class AddFormClass extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        const { submitData } = this.props;
+        const newValues = {};
+
+        Object.keys(values).forEach(key => {
+          if(typeof values[key] !== 'undefined') {
+            if(apiMapping.hasOwnProperty(key)) {
+              newValues[apiMapping[key]] = values[key];
+            } else {
+              newValues[key] = values[key];
+            }
+          }    
+        });
+        submitData(newValues);
       }
     });
   }
 
   render() {
     const { getFieldDecorator } = this.props.form;
+    const { loading } = this.props;
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -39,32 +52,29 @@ class AddFormClass extends React.Component {
       },
     };
 
-
     return (
       <Form onSubmit={this.handleSubmit}>
+        <FormItem
+            {...formItemLayout}
+            label="Complete Name"
+          >
+            {getFieldDecorator('name', {
+              rules: [{
+                required: true, message: 'Please input your Name',
+              }, {
+                validator: this.validateToNextPassword,
+              }],
+            })(
+              <Input />
+            )}
+        </FormItem>
         <FormItem
           {...formItemLayout}
           label="E-mail"
         >
           {getFieldDecorator('email', {
             rules: [{
-              type: 'email', message: 'The input is not valid E-mail!',
-            }, {
-              required: true, message: 'Please input your E-mail!',
-            }],
-          })(
-            <Input />
-          )}
-        </FormItem>
-        <FormItem
-          {...formItemLayout}
-          label="Complete Name"
-        >
-          {getFieldDecorator('Name', {
-            rules: [{
-              required: true, message: 'Please input your Name',
-            }, {
-              validator: this.validateToNextPassword,
+            }, {              
             }],
           })(
             <Input />
@@ -75,7 +85,7 @@ class AddFormClass extends React.Component {
           label="Phone Number"
         >
           {getFieldDecorator('phone', {
-            rules: [{ required: true, message: 'Please input your phone number!' }],
+            
           })(
             <Input />
           )}
@@ -85,14 +95,14 @@ class AddFormClass extends React.Component {
           label="Location"
         >
           {getFieldDecorator('Location', {
-            rules: [{ required: true, message: 'Please input your Location!' }],
+            
           })(
             <Input />
           )}
         </FormItem>
         <FormItem
           {...formItemLayout}
-          label="Assistant(Optional)"
+          label="Assistant"
         >
           {getFieldDecorator('Assistant', {
           })(
@@ -101,7 +111,7 @@ class AddFormClass extends React.Component {
         </FormItem>
         <FormItem
           {...formItemLayout}
-          label="Group(Optional)"
+          label="Group"
         >
           {getFieldDecorator('Groups', {
           })(
@@ -110,7 +120,7 @@ class AddFormClass extends React.Component {
         </FormItem>
         <FormItem
           {...formItemLayout}
-          label="Organization(Optional)"
+          label="Organization"
         >
           {getFieldDecorator('Organization', {
           })(
@@ -118,7 +128,7 @@ class AddFormClass extends React.Component {
           )}
         </FormItem>
         <FormItem {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit" icon="user-add">Add</Button>
+          <Button type="primary" htmlType="submit" loading={loading} icon="user-add">Add</Button>
         </FormItem>
       </Form>
     );

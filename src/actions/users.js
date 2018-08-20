@@ -21,3 +21,17 @@ export function selectUser(userList, userId) {
     userDetailModal: true,
   };
 }
+
+export function addUser(payload) {
+  return {
+    type: C.ADD_USER,
+    payload,
+  };
+}
+
+export function deleteUser(id) {
+  return {
+    type: C.DELETE_USER,
+    id,
+  };
+}
