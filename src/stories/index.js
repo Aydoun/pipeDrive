@@ -14,14 +14,4 @@ storiesOf('List Box', module)
       />
       <Item />
     </div>
-  ))
-  .add('User Details', () => (
-    <div>
-      <UserDetails />
-    </div>
-  ))
-  .add('Drag and Drop', () => (
-    <div>
-      <DND />
-    </div>
   ));

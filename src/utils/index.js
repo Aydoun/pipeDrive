@@ -1,3 +1,5 @@
+import { userOrder } from './config';
+
 export const initials = (fn, ln) => {
     if(fn && ln) {
         return `${fn[0].toUpperCase()}${ln[0].toUpperCase()}`;
@@ -6,16 +8,19 @@ export const initials = (fn, ln) => {
     return '';
 };
 
-export const swapElements = (list, sourceId, destinatonId) => {
+export const calculateOrder = (list, draggableIdx, endIdx) => {
     let _list = list.slice();
-    const _sourceId = Number(sourceId);
-    const _destinationId = Number(destinatonId);
-    const sourceIndex = _list.findIndex(l => l.id === _sourceId);
-    const destinationIndex = _list.findIndex(l => l.id === _destinationId);
+    const [removed] = _list.splice(draggableIdx, 1);
 
-    var tmp = _list[sourceIndex].order;
-    _list[sourceIndex].order = list[destinationIndex].order;
-    _list[destinationIndex].order = tmp;
-
+    if(endIdx - 1 >= 0 && endIdx < _list.length) {
+        removed[userOrder] = (_list[endIdx - 1][userOrder] + _list[endIdx][userOrder]) / 2;
+    } else if (endIdx >= _list.length) {
+        removed[userOrder] = _list[endIdx - 1][userOrder] + 1;
+    } else {
+        removed[userOrder] = (_list[endIdx][userOrder]) / 2;
+    }
+        
+    _list.splice(endIdx, 0, removed)
+    
     return _list;
 }

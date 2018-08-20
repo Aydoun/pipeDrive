@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Input, Button, Pagination, Modal, Divider, Spin } from 'antd';
+import { Input, Button, Pagination, Modal, Spin } from 'antd';
 import SortedList from '../dnd/';
 import AddForm from '../userAdd/';
 import UserDetails from '../userDetails/';

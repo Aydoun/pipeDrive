@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Avatar, Divider, Row, Col, Button, Popconfirm } from 'antd';
+import { Avatar, Row, Col, Button, Popconfirm } from 'antd';
 import { apiMapping } from '../../utils/config';
 import './index.css';
 

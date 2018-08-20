@@ -5,7 +5,7 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { selectUser } from '../../actions/users';
 import ListItem from '../listItem/';
 import { initials } from '../../utils/';
-import { apiMapping } from '../../utils/config';
+import { apiMapping, userOrder } from '../../utils/config';
 
 const getItemStyle = (isDragging, draggableStyle) => ({
   ...draggableStyle,
@@ -20,19 +20,21 @@ class DND extends Component {
   }
 
   onDragEnd(result) {
+    console.log(result, 'result');
+    // return;
     if (!result.destination) {
       return;
     }
-    const sourceId = result.source.droppableId;
-    const destinationId = result.destination.droppableId;
+    const sourceIdx = result.source.index;
+    const destinationIdx = result.destination.index;
+    const draggableId = result.draggableId;
 
-    if(sourceId === destinationId) {
-      return;
-    }
+    // if(sourceId === destinationId) {
+    //   return;
+    // }
 
-    this.props.alterOrder(this.props.userList, sourceId, destinationId);
 
-    console.log(result);
+    this.props.alterOrder(this.props.userList, sourceIdx, destinationIdx, draggableId);
   }
 
   userClick(userId) {
@@ -41,17 +43,18 @@ class DND extends Component {
 
   render() {
     const { list } = this.props;
+    console.log(list.map(l => l[userOrder]).slice(0, 10), 'orders');
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
-        {
-          list.map((item, index) => {
-            return (
-              <Droppable droppableId={`${item.id}`} key={item.id}>
+        <Droppable droppableId="droppable" >
                 {(provided, snapshot) => (
                   <div
                     ref={provided.innerRef}
                   >
-                    <Draggable key={item.id} draggableId={item.id}>
+                  {
+                    list.map((item, index) => {
+                      return (
+                        <Draggable key={item.id} draggableId={item.id} index={index}>
                         {(provided, snapshot) => (
                           <div
                             ref={provided.innerRef}
@@ -71,13 +74,13 @@ class DND extends Component {
                           </div>
                         )}
                       </Draggable>
-                    {provided.placeholder}
+                      )
+                    })
+                  }
+                  {provided.placeholder}
                   </div>
                 )}
-              </Droppable>
-            )
-          })
-        }
+            </Droppable>
       </DragDropContext>
     );
   }
@@ -86,13 +89,14 @@ class DND extends Component {
 function mapDispatchToProps(dispatch) {
   return {
     ...bindActionCreators({ selectUser }, dispatch),
-    alterOrder: (list, sourceId, destinationId) => {
+    alterOrder: (list, sourceIdx, destinationIdx, draggableId) => {
       dispatch({
         type: 'ALTER_USER_ORDER',
         payload: {
           list,
-          sourceId,
-          destinationId,
+          sourceIdx,
+          destinationIdx,
+          draggableId,
         }
       });
     },
