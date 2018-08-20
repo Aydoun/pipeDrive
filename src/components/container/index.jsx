@@ -123,10 +123,11 @@ class Container extends Component {
             />
           </div>    
           <Modal 
-            title="Add New Person"
+            title="Add Person"
             visible={userAddModal}
             destroyOnClose
             onCancel={() => this.props.toggleAddModal(false)}
+            width={415}
             footer={[
               <Button 
                 key="back" 
@@ -152,7 +153,7 @@ class Container extends Component {
                 Back
               </Button>,
             ]}
-            width={400}
+            width={415}
           >
             <UserDetails/>
           </Modal>

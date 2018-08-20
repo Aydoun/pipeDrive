@@ -23,3 +23,11 @@ li.empty-results {
     font-weight: bold;
     color: rgba(0,0,0,.45);
 }
+
+.ant-modal-header {
+    background: #efefef;
+}
+
+.ant-modal-footer {
+    background: #efefef;
+}
