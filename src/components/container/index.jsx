@@ -45,6 +45,7 @@ class Container extends Component {
     this.setState(prevState => {
       return {
         currentPage: page,
+        pageSize,
       };
     });
   }
@@ -86,6 +87,14 @@ class Container extends Component {
     const finalList = subList.slice((currentPage - 1) * pageSize, currentPage * pageSize)
     const userListLength = subList.length;
 
+    if(listLoading) {
+      return (
+        <div className="container-loading">
+          <Spin />
+        </div>
+      );
+    }
+
     return (
       <div className="app-container">
           <h3 className="list-header">People's List</h3>
@@ -104,7 +113,6 @@ class Container extends Component {
               style={{ width: 200, float: 'right' }}
             />
             <div style={{ marginTop: 12 }}>
-                { listLoading && <Spin style={{}}/> }
                 {
                   userListLength > 0 ? <SortedList list={finalList}/> : (
                     <li className="empty-results">No Results Found...</li>
@@ -116,7 +124,7 @@ class Container extends Component {
               defaultCurrent={1} 
               total={userListLength} 
               showQuickJumper 
-              pageSize={10}
+              pageSize={pageSize}
               current={currentPage}
               showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
               onChange={this.onPaginationChange}

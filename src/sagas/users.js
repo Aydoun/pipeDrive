@@ -6,7 +6,7 @@ import request from '../utils/request';
 import { apiBase, userOrder } from '../utils/config';
 import { calculateOrder, newOrder } from '../utils/';
 
-function* getUserList() {
+export function* getUserList() {
   const requestURL = `${apiBase}/persons`;
   const GETOptions = {
     method: 'GET',
@@ -23,7 +23,6 @@ function* getUserList() {
   } catch (err) {
     yield put(sendNotification('error', 'Error While Fetching Data, please try again!'));
     yield put({ type: C.TOGGLE_LIST_LOADING, loading: false });
-    console.log(err);
   }
 }
 
@@ -52,9 +51,7 @@ function* alterOrder(data) {
     };
     yield call(request, PUTOptions);
   } catch (err) {
-    yield put(sendNotification('error', 'Error While Persisting The Order'));
-   
-    console.log(err);
+    yield put(sendNotification('error', 'Error While Persisting The Order'));   
   }
 }
 
@@ -82,12 +79,10 @@ function* persistUser(data) {
   } catch (err) {
     yield put(sendNotification('error', 'Error While Adding new Person'));
     yield put({ type: C.TOGGLE_ADD_USER, loading: false });
-    console.log(err);
   }
 }
 
 function* deleteUser(data) {
-  console.log(data, 'data');
   try {
     yield put({ type: C.TOGGLE_DELETE_USER, loading: true });
     const list = yield select(state => state.users.userList);
@@ -97,9 +92,6 @@ function* deleteUser(data) {
       url: requestURL,
     };
 
-    console.log(DELETEOptions, 'POSTOPTIONS');
-
-
     yield call(request, DELETEOptions);
     yield put({ type: C.TOGGLE_USER_DETAILS, userDetailModal: false });
     yield put(OrderList(list.filter(l => l.id !== data.id)));    
@@ -108,7 +100,6 @@ function* deleteUser(data) {
   } catch (err) {
     yield put(sendNotification('error', 'Error While Deleting The Person Person'));
     yield put({ type: C.TOGGLE_DELETE_USER, loading: false });
-    console.log(err);
   }
 }
 
