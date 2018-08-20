@@ -3,7 +3,7 @@ import { SEND_NOTIFICATION } from '../constants/app';
 const initialState = {
   notificationData: {
     type: '',
-    message: '',
+    text: '',
   },
   notificationKey: 0,
 };

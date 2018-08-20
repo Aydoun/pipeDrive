@@ -1,16 +1,15 @@
 import * as C from '../constants/users';
 
-export function getUserList(payload) {
+export function getUserList() {
     return {
       type: C.USER_LIST_LOADING,
-      payload
+      loading: true,
     };
 }
 
 export function OrderList(userList) {
   return {
     type: C.SAVE_USER_LIST,
-    // userList : userList.sort((a, b) => a.id - b.id),
     userList: userList.sort((a, b) => a[C.USER_ORDER_TOKEN] - b[C.USER_ORDER_TOKEN]),
   };
 }

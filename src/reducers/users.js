@@ -12,9 +12,9 @@ const initialState = {
 
 function userReducer(state = initialState, action) {
   switch (action.type) {
-    case C.USER_LIST_LOADING:
+    case C.TOGGLE_LIST_LOADING:
       return Object.assign({}, state, {
-        listLoading: true,
+        listLoading: action.loading,
       });
     case C.SELECT_USER:
       return Object.assign({}, state, {
@@ -24,7 +24,6 @@ function userReducer(state = initialState, action) {
     case C.SAVE_USER_LIST:
       return Object.assign({}, state, {
         userList: action.userList,
-        listLoading: false,
       });
     case C.TOGGLE_USER_DETAILS:
       return Object.assign({}, state, {

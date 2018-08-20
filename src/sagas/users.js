@@ -1,13 +1,13 @@
-import { call, put, takeLatest, fork } from 'redux-saga/effects';
+import { select, call, put, takeLatest, fork } from 'redux-saga/effects';
 import * as C from '../constants/users';
 import { OrderList } from '../actions/users';
-import { SEND_NOTIFICATION } from '../constants/app';
+import { sendNotification } from '../actions/app';
 import request from '../utils/request';
 import { apiBase, userOrder } from '../utils/config';
 import { calculateOrder } from '../utils/';
 
 function* getUserList() {
-  const requestURL = `${apiBase}/persons`;
+  const requestURL = `${apiBase}/persons23321`;
 
   const GETOptions = {
     method: 'GET',
@@ -15,17 +15,22 @@ function* getUserList() {
   };
 
   try {
+    yield put({
+      type: C.TOGGLE_LIST_LOADING,
+      loading: true,
+    });
     const res = yield call(request, GETOptions);
     
-
     yield put(OrderList(res.data.data));
-  } catch (err) {
     yield put({
-        type: SEND_NOTIFICATION,
-        data: {
-            type: 'error',
-            message: 'Error While Fetching Data, please try again!',
-        }
+      type: C.TOGGLE_LIST_LOADING,
+      loading: false,
+    });
+  } catch (err) {
+    yield put(sendNotification('error', 'Error While Fetching Data, please try again!'));
+    yield put({
+      type: C.TOGGLE_LIST_LOADING,
+      loading: false,
     });
     console.log(err);
   }
@@ -33,10 +38,15 @@ function* getUserList() {
 
 function* alterOrder(data) {
   try {
-    const { destinationIdx, draggableId, list } = data.payload;
+    const list = yield select(state => state.users.userList);
+    const { destinationIdx, draggableId } = data.payload;
     const draggableIdx = list.findIndex(l => l.id === draggableId);
     const endIdx = 10 * (Math.floor(draggableIdx / 10)) + destinationIdx;
     const newList = calculateOrder(list, draggableIdx, endIdx);
+
+    if(draggableIdx === destinationIdx) {
+      return;
+    }
 
     yield put(OrderList(newList));
     
@@ -49,16 +59,11 @@ function* alterOrder(data) {
         [userOrder]: newOrderUser[userOrder],
       },
     };
-
-    yield call(request, PUTOptions);
+    // console.log(PUTOptions, 'PUTOPTIONS');
+    // yield call(request, PUTOptions);
   } catch (err) {
-    yield put({
-      type: SEND_NOTIFICATION,
-      data: {
-          type: 'error',
-          message: 'Error While Persisting The Order',
-      }
-    });
+    yield put(sendNotification('error', 'Error While Persisting The Order'));
+   
     console.log(err);
   }
 }

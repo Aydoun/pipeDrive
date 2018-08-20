@@ -1,13 +1,11 @@
 import React from 'react';
-import { notification } from 'antd';
+import { message } from 'antd';
 
 export default class extends React.Component {
   componentDidMount() {
-    const { type, message } = this.props.notificationData;
-    if(message && type) {
-        notification[type]({
-            message,
-        });
+    const { type, text } = this.props.notificationData;
+    if(text && type) {
+      message[type](text)
     }
   }
 
