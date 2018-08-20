@@ -56,7 +56,7 @@ class AddFormClass extends React.Component {
       <Form onSubmit={this.handleSubmit}>
         <FormItem
             {...formItemLayout}
-            label="Complete Name"
+            label="Name"
           >
             {getFieldDecorator('name', {
               rules: [{

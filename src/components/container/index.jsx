@@ -112,7 +112,7 @@ class Container extends Component {
                 }
             </div>
             <Pagination 
-              style={{ float: 'right' }}
+              style={{ float: 'right', paddingBottom: 24 }}
               defaultCurrent={1} 
               total={userListLength} 
               showQuickJumper 
