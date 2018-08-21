@@ -30,7 +30,7 @@ class Container extends Component {
   isSearchBarEmpty(e) {
     const value = e.target.value;
 
-    if(typeof value !== 'undefined' && value.length === 0) {
+    if (typeof value !== 'undefined' && value.length === 0) {
       // Empty Search Bar
       this.setState(prevState => {
         return {
@@ -64,7 +64,7 @@ class Container extends Component {
     const { userList } = this.props;
     let subList = userList;
 
-    if(searchValue) {
+    if (searchValue) {
       const lowerSearchValue = searchValue.toLowerCase();
       subList = userList.filter(l => l.name.toLowerCase().indexOf(lowerSearchValue) >= 0)
     }
@@ -87,7 +87,7 @@ class Container extends Component {
     const finalList = subList.slice((currentPage - 1) * pageSize, currentPage * pageSize)
     const userListLength = subList.length;
 
-    if(listLoading) {
+    if (listLoading) {
       return (
         <div className="container-loading">
           <Spin />
@@ -97,74 +97,74 @@ class Container extends Component {
 
     return (
       <div className="app-container">
-          <h3 className="list-header">People's List</h3>
-          <div style={{ padding : '12px 15px'}}>
-            <Button 
-              type="primary" 
-              icon="plus"
-              onClick={() => this.props.toggleAddModal(true)}
-            >
-                Add a Person
+        <h3 className="list-header">People's List</h3>
+        <div style={{ padding: '12px 15px' }}>
+          <Button
+            type="primary"
+            icon="plus"
+            onClick={() => this.props.toggleAddModal(true)}
+          >
+            Add a Person
             </Button>
-            <Search
-              placeholder="Search..."
-              onChange={this.isSearchBarEmpty}
-              onSearch={this.onSearch}
-              style={{ width: 200, float: 'right' }}
-            />
-            <div style={{ marginTop: 12 }}>
-                {
-                  userListLength > 0 ? <SortedList list={finalList}/> : (
-                    <li className="empty-results">No Results Found...</li>
-                  )
-                }
-            </div>
-            <Pagination 
-              style={{ float: 'right', paddingBottom: 24 }}
-              defaultCurrent={1} 
-              total={userListLength} 
-              showQuickJumper 
-              pageSize={pageSize}
-              current={currentPage}
-              showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
-              onChange={this.onPaginationChange}
-            />
-          </div>    
-          <Modal 
-            title="Add Person"
-            visible={userAddModal}
-            destroyOnClose
-            onCancel={() => this.props.toggleAddModal(false)}
-            width={415}
-            footer={[
-              <Button 
-                key="back" 
-                onClick={() => this.props.toggleAddModal(false)}
-                style={{ color: '#444', fontWeight: 700 }}
-              >
-                Back
+          <Search
+            placeholder="Search..."
+            onChange={this.isSearchBarEmpty}
+            onSearch={this.onSearch}
+            style={{ width: 200, float: 'right' }}
+          />
+          <div style={{ marginTop: 12 }}>
+            {
+              userListLength > 0 ? <SortedList list={finalList} /> : (
+                <li className="empty-results">No Results Found...</li>
+              )
+            }
+          </div>
+          <Pagination
+            style={{ float: 'right', paddingBottom: 24 }}
+            defaultCurrent={1}
+            total={userListLength}
+            showQuickJumper
+            pageSize={pageSize}
+            current={currentPage}
+            showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
+            onChange={this.onPaginationChange}
+          />
+        </div>
+        <Modal
+          title="Add Person"
+          visible={userAddModal}
+          destroyOnClose
+          onCancel={() => this.props.toggleAddModal(false)}
+          width={415}
+          footer={[
+            <Button
+              key="back"
+              onClick={() => this.props.toggleAddModal(false)}
+              style={{ color: '#444', fontWeight: 700 }}
+            >
+              Back
               </Button>,
-            ]}
-          >
-            <AddForm submitData={this.submitData} loading={addUserLoading}/>
-          </Modal>
-          <Modal 
-            title="Personal Information"
-            visible={userDetailModal}
-            onCancel={() => this.props.toggleEditModal(false)}
-            footer={[
-              <Button 
-                key="back" 
-                onClick={() => this.props.toggleEditModal(false)}
-                style={{ color: '#444', fontWeight: 700 }}
-              >
-                Back
+          ]}
+        >
+          <AddForm submitData={this.submitData} loading={addUserLoading} />
+        </Modal>
+        <Modal
+          title="Personal Information"
+          visible={userDetailModal}
+          onCancel={() => this.props.toggleEditModal(false)}
+          footer={[
+            <Button
+              key="back"
+              onClick={() => this.props.toggleEditModal(false)}
+              style={{ color: '#444', fontWeight: 700 }}
+            >
+              Back
               </Button>,
-            ]}
-            width={415}
-          >
-            <UserDetails/>
-          </Modal>
+          ]}
+          width={415}
+        >
+          <UserDetails />
+        </Modal>
       </div>
     );
   }
@@ -172,7 +172,7 @@ class Container extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    ...bindActionCreators({ getUserList, selectUser, addUser }, dispatch), 
+    ...bindActionCreators({ getUserList, selectUser, addUser }, dispatch),
     toggleEditModal: visible => {
       dispatch({
         type: 'TOGGLE_USER_DETAILS',

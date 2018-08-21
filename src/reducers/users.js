@@ -1,13 +1,13 @@
 import * as C from '../constants/users';
 
 const initialState = {
-    userList: [],
-    selectedUser: {},
-    userDetailModal: false,
-    userAddModal: false,
-    listLoading: false,
-    addUserLoading: false,
-    deleteUserLoading: false,
+  userList: [],
+  selectedUser: {},
+  userDetailModal: false,
+  userAddModal: false,
+  listLoading: false,
+  addUserLoading: false,
+  deleteUserLoading: false,
 };
 
 function userReducer(state = initialState, action) {

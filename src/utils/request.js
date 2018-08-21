@@ -7,6 +7,6 @@ export default function request(options) {
             api_token: token,
             limit: 1000000,
         },
-        timeout: 15 * 1000,    
+        timeout: 15 * 1000,
     }));
- }
+}
