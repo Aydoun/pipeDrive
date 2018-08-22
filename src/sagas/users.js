@@ -17,7 +17,7 @@ function* getUserList() {
     yield put({ type: C.TOGGLE_LIST_LOADING, loading: true });
 
     const res = yield call(request, GETOptions);
-    
+
     yield put(OrderList(res.data.data));
     yield put({ type: C.TOGGLE_LIST_LOADING, loading: false });
   } catch (err) {
@@ -35,12 +35,12 @@ function* alterOrder(data) {
     const endIdx = 10 * (Math.floor(draggableIdx / 10)) + destinationIdx;
     const newList = calculateOrder(list, draggableIdx, endIdx);
 
-    if(draggableIdx === destinationIdx) {
+    if (draggableIdx === destinationIdx) {
       return;
     }
 
     yield put(OrderList(newList));
-    
+
     const newOrderUser = newList[endIdx];
     const requestURL = `${apiBase}/persons/${newOrderUser['id']}`;
     const PUTOptions = {
@@ -53,7 +53,7 @@ function* alterOrder(data) {
     yield call(request, PUTOptions);
   } catch (err) {
     yield put(sendNotification('error', 'Error While Persisting The Order'));
-   
+
     console.log(err);
   }
 }
@@ -75,7 +75,7 @@ function* persistUser(data) {
     const res = yield call(request, POSTOptions);
 
     yield put({ type: C.TOGGLE_ADD_MODAL, userAddModal: false });
-    yield put(OrderList(list.concat([res.data.data])));    
+    yield put(OrderList(list.concat([res.data.data])));
     yield put({ type: C.TOGGLE_ADD_USER, loading: false });
     yield put(sendNotification('success', 'New Person is Successfully Added'));
 
@@ -102,7 +102,7 @@ function* deleteUser(data) {
 
     yield call(request, DELETEOptions);
     yield put({ type: C.TOGGLE_USER_DETAILS, userDetailModal: false });
-    yield put(OrderList(list.filter(l => l.id !== data.id)));    
+    yield put(OrderList(list.filter(l => l.id !== data.id)));
     yield put({ type: C.TOGGLE_DELETE_USER, loading: false });
     yield put(sendNotification('success', 'Person is Successfully Deleted'));
   } catch (err) {
@@ -113,7 +113,7 @@ function* deleteUser(data) {
 }
 
 function* userListSaga() {
-    yield takeLatest(C.USER_LIST_LOADING, getUserList);
+  yield takeLatest(C.USER_LIST_LOADING, getUserList);
 }
 
 function* alterOrderSaga() {
