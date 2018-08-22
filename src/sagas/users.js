@@ -2,7 +2,7 @@ import { select, call, put, takeLatest, fork } from 'redux-saga/effects';
 import * as C from '../constants/users';
 import { OrderList } from '../actions/users';
 import { sendNotification } from '../actions/app';
-import request from '../utils/request';
+import * as api from '../utils/request';
 import { apiBase, userOrder } from '../utils/config';
 import { calculateOrder, newOrder } from '../utils/';
 
@@ -16,7 +16,7 @@ export function* getUserList() {
   try {
     yield put({ type: C.TOGGLE_LIST_LOADING, loading: true });
 
-    const res = yield call(request, GETOptions);
+    const res = yield call(api.request, GETOptions);
 
     yield put(OrderList(res.data.data));
     yield put({ type: C.TOGGLE_LIST_LOADING, loading: false });
@@ -26,7 +26,7 @@ export function* getUserList() {
   }
 }
 
-function* alterOrder(data) {
+export function* alterOrder(data) {
   try {
     const list = yield select(state => state.users.userList);
     const { destinationIdx, draggableId } = data.payload;
@@ -49,7 +49,7 @@ function* alterOrder(data) {
         [userOrder]: newOrderUser[userOrder],
       },
     };
-    yield call(request, PUTOptions);
+    yield call(api.request, PUTOptions);
   } catch (err) {
     yield put(sendNotification('error', 'Error While Persisting The Order'));
   }
@@ -69,7 +69,7 @@ function* persistUser(data) {
       data: orderedData,
     };
 
-    const res = yield call(request, POSTOptions);
+    const res = yield call(api.request, POSTOptions);
 
     yield put({ type: C.TOGGLE_ADD_MODAL, userAddModal: false });
     yield put(OrderList(list.concat([res.data.data])));
@@ -92,7 +92,7 @@ function* deleteUser(data) {
       url: requestURL,
     };
 
-    yield call(request, DELETEOptions);
+    yield call(api.request, DELETEOptions);
     yield put({ type: C.TOGGLE_USER_DETAILS, userDetailModal: false });
     yield put(OrderList(list.filter(l => l.id !== data.id)));
     yield put({ type: C.TOGGLE_DELETE_USER, loading: false });
