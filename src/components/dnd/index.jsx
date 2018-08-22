@@ -38,39 +38,39 @@ class DND extends Component {
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
         <Droppable droppableId="droppable" >
-            {(provided, snapshot) => (
-              <div
-                ref={provided.innerRef}
-              >
+          {(provided, snapshot) => (
+            <div
+              ref={provided.innerRef}
+            >
               {
                 list.map((item, index) => {
                   return (
                     <Draggable key={item.id} draggableId={item.id} index={index}>
-                    {(provided, snapshot) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        style={getItemStyle(
-                          snapshot.isDragging,
-                          provided.draggableProps.style
-                        )}
-                      >
-                        <ListItem      
-                          userName={item.name}
-                          userInitials={initials(item.first_name, item.last_name)}
-                          userLocation={item[apiMapping.Location]}
-                          onUserClick={() => this.userClick(item.id)}
-                        />
-                      </div>
-                    )}
-                  </Draggable>
+                      {(provided, snapshot) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          style={getItemStyle(
+                            snapshot.isDragging,
+                            provided.draggableProps.style
+                          )}
+                        >
+                          <ListItem
+                            userName={item.name}
+                            userInitials={initials(item.first_name, item.last_name)}
+                            userLocation={item[apiMapping.Location]}
+                            onUserClick={() => this.userClick(item.id)}
+                          />
+                        </div>
+                      )}
+                    </Draggable>
                   )
                 })
               }
               {provided.placeholder}
-              </div>
-            )}
+            </div>
+          )}
         </Droppable>
       </DragDropContext>
     );

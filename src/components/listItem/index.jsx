@@ -4,8 +4,8 @@ import { Avatar, Icon } from 'antd';
 import './index.css';
 
 const pictureStyle = {
-    backgroundColor: '#d3edff', 
-    color: '#0883f5', 
+    backgroundColor: '#d3edff',
+    color: '#0883f5',
     verticalAlign: 'middle',
     fontSize: '13px',
     fontWeight: '700'
@@ -23,7 +23,7 @@ export default class ListItem extends Component {
         userName: 'Michael Barton',
         userLocation: 'Perkin Elmer Inc',
         userInitials: 'MB',
-        onUserClick: () => {},
+        onUserClick: () => { },
     }
 
     render() {
@@ -33,22 +33,22 @@ export default class ListItem extends Component {
             userInitials,
             onUserClick,
         } = this.props;
-        
+
         return (
-        <div className="user-list__wrapper">
-            <div>
-                <div className="user-item__name">
-                    <a onClick={onUserClick} >{userName}</a>
-                </div>
+            <div className="user-list__wrapper">
                 <div>
-                    <Icon type="environment" />
-                    <span className="user-item__location">{userLocation}</span>
+                    <div className="user-item__name">
+                        <a onClick={onUserClick} >{userName}</a>
+                    </div>
+                    <div>
+                        <Icon type="environment" />
+                        <span className="user-item__location">{userLocation}</span>
+                    </div>
+                </div>
+                <div className="user-item__pic">
+                    <Avatar size={38} style={pictureStyle} >{userInitials}</Avatar>
                 </div>
             </div>
-            <div className="user-item__pic">
-                <Avatar size={38} style={pictureStyle} >{userInitials}</Avatar>
-            </div>
-        </div>
         );
     }
 }

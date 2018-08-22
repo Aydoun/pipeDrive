@@ -1,4 +1,5 @@
 import * as C from '../constants/users';
+import { userOrder } from '../utils/config';
 
 export function getUserList() {
     return {
@@ -10,7 +11,7 @@ export function getUserList() {
 export function OrderList(userList) {
   return {
     type: C.SAVE_USER_LIST,
-    userList: userList.sort((a, b) => a[C.USER_ORDER_TOKEN] - b[C.USER_ORDER_TOKEN]),
+    userList: userList.sort((a, b) => a[userOrder] - b[userOrder]),
   };
 }
 

@@ -4,7 +4,7 @@ import { message } from 'antd';
 export default class extends React.Component {
   componentDidMount() {
     const { type, text } = this.props.notificationData;
-    if(text && type) {
+    if (text && type) {
       message[type](text)
     }
   }

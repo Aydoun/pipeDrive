@@ -24,12 +24,12 @@ class UserDetails extends Component {
     return (
       <div className="user-details__wrapper">
         <Row className="user-contact__info">
-              <Avatar 
-                  size={64} >
-                  {initials(first_name, last_name)}
-              </Avatar>
-              <div className="user-contact__name">{name}</div>
-              <div className="user-contact__phone">{phone.length > 0 ? phone[0].value : '--'}</div>
+          <Avatar
+            size={64} >
+            {initials(first_name, last_name)}
+          </Avatar>
+          <div className="user-contact__name">{name}</div>
+          <div className="user-contact__phone">{phone.length > 0 ? phone[0].value : '--'}</div>
         </Row>
         <Row className="user-info__wrapper" >
           <Col span={8} className="user-info__label">Email</Col>

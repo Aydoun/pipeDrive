@@ -13,13 +13,13 @@ class AddFormClass extends React.Component {
         const newValues = {};
 
         Object.keys(values).forEach(key => {
-          if(typeof values[key] !== 'undefined') {
-            if(apiMapping.hasOwnProperty(key)) {
+          if (typeof values[key] !== 'undefined') {
+            if (apiMapping.hasOwnProperty(key)) {
               newValues[apiMapping[key]] = values[key];
             } else {
               newValues[key] = values[key];
             }
-          }    
+          }
         });
         submitData(newValues);
       }
@@ -55,18 +55,18 @@ class AddFormClass extends React.Component {
     return (
       <Form onSubmit={this.handleSubmit}>
         <FormItem
-            {...formItemLayout}
-            label="Name"
-          >
-            {getFieldDecorator('name', {
-              rules: [{
-                required: true, message: 'Please input your Name',
-              }, {
-                validator: this.validateToNextPassword,
-              }],
-            })(
-              <Input />
-            )}
+          {...formItemLayout}
+          label="Name"
+        >
+          {getFieldDecorator('name', {
+            rules: [{
+              required: true, message: 'Please input your Name',
+            }, {
+              validator: this.validateToNextPassword,
+            }],
+          })(
+            <Input />
+          )}
         </FormItem>
         <FormItem
           {...formItemLayout}
@@ -74,7 +74,7 @@ class AddFormClass extends React.Component {
         >
           {getFieldDecorator('email', {
             rules: [{
-            }, {              
+            }, {
             }],
           })(
             <Input />
@@ -85,7 +85,7 @@ class AddFormClass extends React.Component {
           label="Phone Number"
         >
           {getFieldDecorator('phone', {
-            
+
           })(
             <Input />
           )}
@@ -95,7 +95,7 @@ class AddFormClass extends React.Component {
           label="Location"
         >
           {getFieldDecorator('Location', {
-            
+
           })(
             <Input />
           )}
